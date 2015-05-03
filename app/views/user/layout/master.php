@@ -8,10 +8,11 @@
 		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 
-		<!-- JS -->
-		<script src="public/js/script.js"></script>
+		<script>
+			
+		</script>
 	</head>
-	<body>
+	<body onload="calculateAvatarSize()">
 		<main>
 			<header>
 				<div class="top">
@@ -82,5 +83,8 @@
 				
 			</footer>
 		</main>
+
+		<!-- JS -->
+		<script type="text/javascript" src="public/js/script.js"></script>
 	</body>
 </html>
