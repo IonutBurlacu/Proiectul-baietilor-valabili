@@ -1,27 +1,38 @@
 <?php 
-
+ini_set("display_errors", 1);
 class DB {
-	private static $host = 'localhost';
+	private static $host = '127.0.0.1';
 	private static $dbname = 'adwise';
 	private static $username = 'root';
 	private static $password = '';
 
-	private static $db;
+	public static $db;
 
 	public static function boot(){
-		self::$db = new PDO('mysql:host=localhost;dbname=adwise;charset=utf8', 'root', '');
+		self::$db = new PDO("mysql:host=localhost;dbname=adwise", "adwise", "adwise2015");
+		self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		// self::$db->select_db("adwise");
 	}
 
-	public static function query($query){
+	public static function query($query, $type = "select"){
 		$stmt = self::$db->query($query);
 		$result = array();
-		while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-			$result[] = $row;
+		
+		if($type == "insert" || $type == "update" || $type == "delete"){
+
 		}
-		return $result;
-		// var_dump($stmt);
-		// return 1;
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		else {
+			if($stmt != null){
+				while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+					$result[] = $row;
+				}
+			}
+			return $result;
+		}
+	}
+
+	public static function dbInstance(){
+		return self::$db;
 	}
 
 }

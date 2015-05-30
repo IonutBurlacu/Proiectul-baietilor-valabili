@@ -1,12 +1,12 @@
 <section class="home-listing">
-	<h4>Latest questions</h4>
-	<?php if(count($latestQuestions) == 0) { ?>
+	<h4>Questions about <?php echo $category; ?></h4>
+	<?php if(count($questions) == 0) { ?>
 		<div class="form">
 			<h4>No questions available.</h4>
 		</div>
 	<?php } else { ?>
 		<ul class="questions">
-			<?php foreach($latestQuestions as $question) { ?>
+			<?php foreach($questions as $question) { ?>
 				<li>
 					<div class="left-side">
 						<p><?php echo $question['votes_count']; ?> votes</p>
@@ -24,7 +24,7 @@
 							</ul>
 						<?php } ?>
 						<div class="asked-by">
-							<span>asked by </span><a href="#"><?php echo $question['first_name'] . " " . $question['last_name']; ?></a>
+							<span>asked by </span><a href="<?php URL::to('/profile?id=' . $question['user_id']); ?>"><?php echo $question['first_name'] . " " . $question['last_name']; ?></a>
 						</div>
 					</div>
 					<div class="clear-float"></div>
@@ -33,7 +33,3 @@
 		</ul>
 	<?php } ?>
 </section>
-
-<script>
-	document.getElementById("questions-link").className = "active";
-</script>

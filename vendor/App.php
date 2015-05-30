@@ -3,6 +3,7 @@
 class App {
 
 	private static $paths;
+	public static $baseUrl = "http://bucium.mobiletouch.ro:6010";
 
 	public static function path($path){
 		return self::$paths[$path];
@@ -22,6 +23,8 @@ class App {
 		foreach (glob("vendor/classes/*.php") as $filename){
 		    include $filename;
 		}
+		/* Start session */
+		session_start();
 		/* Set all paths */
 		self::set();
 		/* Initialize DB */

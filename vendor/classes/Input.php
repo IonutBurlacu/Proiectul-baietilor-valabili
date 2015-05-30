@@ -2,22 +2,21 @@
 
 class Input {
 
-    public static function get($key, $method){
-        if($method == "GET"){
-            if(isset($_GET[$key])){
-                return $_GET[$key];
-            }
-            else {
-                return null;
-            }
+    public static function get($key){
+        if(isset($_GET[$key])){
+            return $_GET[$key];
         }
         else {
-            if(isset($_POST[$key])){
-                return $_POST[$key];
-            }
-            else {
-                return null;
-            }
+            return null;
+        }
+    }
+
+    public static function post($key){
+        if(isset($_POST[$key])){
+            return $_POST[$key];
+        }
+        else {
+            return null;
         }
     }
 

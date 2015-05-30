@@ -4,4 +4,4 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ /index.php?/$1 [L]
 
-RewriteRule ^([A-Za-z0-9-]+)/?$ index.php?route=$1
+RewriteRule ^([A-Za-z0-9-]+)/?$ index.php?route=$1&params=$2

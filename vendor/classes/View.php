@@ -1,7 +1,6 @@
 <?php 	
 
 class View {
-
 	public static function make($path, array $parameters = array()){
 		/* Set all variables from parameters to be seen in view */
 		foreach($parameters as $key => $parameter){
@@ -17,14 +16,15 @@ class View {
 		foreach($parameters as $key => $parameter){
 			${$key} = $parameter;
 		}
+		if(isset($layoutPath['vars'])){
+			foreach($layoutPath['vars'] as $key => $parameter){
+				${$key} = $parameter;
+			}	
+		}
 
-		/* Include the content */
-		$content = file_get_contents(App::path('views') . "/" . $path . ".php");
-		
-		/* Include the layout */
-		include (App::path('views') . "/" . $layoutPath . ".php");
-
-
+		include (App::path('views') . "/" . $layoutPath['header'] . ".php");
+		include (App::path('views') . "/" . $path . ".php");
+		include (App::path('views') . "/" . $layoutPath['footer'] . ".php");
 	}
 
 }
