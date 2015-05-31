@@ -23,7 +23,7 @@
 						<?php 
 							if(Auth::check()){
 								?>
-									<a href="<?php URL::to('/profile') ?>" id="profile-link">Profile</a>
+									<a href="<?php URL::to('/profile?id=' . Auth::getUserId()) ?>" id="profile-link">Profile</a>
 									<a href="<?php URL::to('/ask') ?>" id="ask-link">Ask a question</a>
 									<a href="<?php URL::to('/logout') ?>" id="ask-link">Logout</a>
 								<?php
@@ -39,8 +39,8 @@
 					<div class="clear-float"></div>
 				</div>
 				<div class="search-bar">
-					<form action="" action="get">
-						<input type="text" class="search-bar-input" placeholder="Search...">
+					<form action="<?php URL::to('/search'); ?>" method="GET">
+						<input type="text" class="search-bar-input" placeholder="Search..." name="query">
 						<button type="submit">
 							<img src="/public/img/search-icon.png" alt="">
 						</button>

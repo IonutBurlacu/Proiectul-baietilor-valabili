@@ -41,7 +41,7 @@
 				<div class="clear-float"></div>
 			</div>
 			<div class="form-group">
-				<label for="password">&nbsp;</label>
+				<label class="form-label" for="password">&nbsp;</label>
 				<button type="submit">Register</button>
 				<div class="clear-float"></div>
 			</div>

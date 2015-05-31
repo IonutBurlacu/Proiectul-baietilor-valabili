@@ -125,6 +125,34 @@ class QuestionController {
 		}
 	}
 
+	public function search(){
+		$query = Input::get('query');
+		$tags = DB::query("SELECT question_id FROM tag WHERE content = '$query'");
+		$ids = array();
+
+		foreach($tags as $tag){
+			$ids[] = $tag['question_id'];
+		}
+		if(count($ids) > 0){
+			$ids = join(',',$ids);
+
+			$questions = DB::query("SELECT question.id as question_id, question.content, question.title, user.id as user_id, user.first_name, user.last_name FROM question INNER JOIN user ON user.id = question.user_id  WHERE question.id IN ($ids)");
+			foreach($questions as &$question){
+	        		$question_id = $question['question_id'];
+	        		$question['tags'] = DB::query("SELECT id, content FROM tag WHERE question_id = '".$question["question_id"]. "'");
+	                $upvotes = DB::query("SELECT COUNT(*) as count FROM vote_question WHERE question_id = '".$question["question_id"]. "' AND type = 2")[0]['count'];
+	                $downvotes = DB::query("SELECT COUNT(*) as count FROM vote_question WHERE question_id = '".$question["question_id"]. "' AND type = 1")[0]['count'];
+	                $question['votes_count'] = $upvotes - $downvotes;
+	        		$question['answers_count'] = DB::query("SELECT COUNT(*) as count FROM answer WHERE question_id = '".$question["question_id"]. "'")[0]["count"];
+	        		$question['user_answers'] = DB::query("SELECT COUNT(*) as count FROM answer WHERE user_id = '".$question["user_id"]. "'")[0]["count"];
+	        	}
+		}
+		else {
+			$questions = array();
+		}
+    	return View::makeWithLayout('user/search/index', $this->layout, array("questions" => $questions));
+	}
+
 }
 
  ?>

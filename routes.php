@@ -24,6 +24,14 @@
     Route::post('/vote-answer', 'User/QuestionController@voteAnswer');
 
     Route::get('/profile', 'User/UserController@profileIndex');
+    Route::post('/profile/avatar', 'User/UserController@saveAvatar');
+
+    Route::get('/profile/edit', 'User/UserController@editProfileIndex');
+    Route::post('/profile/edit', 'User/UserController@editProfile');
+
+    Route::get('/users', 'User/UserController@usersList');
+
+    Route::get('/search', 'User/QuestionController@search');
 
     /* REST API */
 

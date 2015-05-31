@@ -152,3 +152,76 @@ var openFileDialog = function(){
 	var fileInput = document.getElementById("file-dialog");
 	fileInput.click();
 }
+
+var fileSelected;
+var oldAvatar = "";
+
+var fileChoose = function(e){
+	fileSelected = this.value;
+	this.value = null;
+}
+
+if(document.getElementById("file-dialog") !== null){
+	document.getElementById("file-dialog").onchange = function(e){
+	    var fileReader = new FileReader();
+
+	    fileReader.onload = function(fileLoadedEvent) {
+	        var srcData = fileLoadedEvent.target.result; // <--- data: base64
+	        if(oldAvatar == ""){
+	        	oldAvatar = document.getElementById("user-avatar").src;
+	        }
+
+	        var img = document.getElementById("user-avatar");
+	        img.src = srcData;
+	        var height = img.clientHeight;
+			var width = img.clientWidth;
+
+			if(height > width){
+				//portrait
+				img.className = img.className + " portrait";
+				height = img.height;
+				img.style.marginTop = "-" + height / 2;
+			}
+			else {
+				//landscape
+				img.className = img.className + " landscape";
+				width = img.width;
+				img.style.marginLeft = "-" + width / 2;
+			}
+
+	        document.getElementById("save-file").className = "";
+	        document.getElementById("cancel-file").className = "";
+
+	    }
+	    fileReader.readAsDataURL(this.files[0]);
+	}
+}
+
+if(document.getElementById("cancel-file") !== null){
+	document.getElementById("cancel-file").onclick = function(){
+		document.getElementById("user-avatar").src = oldAvatar;	
+		document.getElementById("save-file").className = "hidden";
+	    document.getElementById("cancel-file").className = "hidden";
+	}
+}
+
+if(document.getElementById("save-file") !== null){
+	document.getElementById("save-file").onclick = function(){
+		var formData = new FormData();
+		formData.append('avatar', document.getElementById("file-dialog").files[0], document.getElementById("file-dialog").files[0].name);
+		formData.append('user_id', document.getElementsByClassName('user-id')[0].id);
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', 'http://' + window.location.host + '/profile/avatar', true);
+		xhr.onload = function () {
+			if (xhr.status === 200) {
+		    	document.getElementById("user-avatar").src = 'http://' + window.location.host + '/public/img/avatar/' + xhr.responseText;
+		    	document.getElementById("save-file").className = "hidden";
+			    document.getElementById("cancel-file").className = "hidden";
+		    }
+		};
+		xhr.send(formData);
+	}
+}
+
+
+
