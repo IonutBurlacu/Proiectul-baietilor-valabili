@@ -20,4 +20,14 @@
     Route::get('/answer/delete', 'User/QuestionController@deleteAnswer');
     Route::get('/question/delete', 'User/QuestionController@deleteQuestion');
 
+    Route::post('/vote-question', 'User/QuestionController@voteQuestion');
+    Route::post('/vote-answer', 'User/QuestionController@voteAnswer');
+
+    Route::get('/profile', 'User/UserController@profileIndex');
+
+    /* REST API */
+
+    Route::get('/api/category', 'Api/QuestionController@category');
+    Route::get('/api/question', 'Api/QuestionController@details');
+
  ?>

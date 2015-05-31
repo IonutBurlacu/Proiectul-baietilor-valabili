@@ -32,8 +32,6 @@ class Route {
 				$_GET[$string[0]] = $string[1];
 			}
 		}
-		// var_dump($vars2);
-		// return;
 		self::call($url, $method);
 	}
 

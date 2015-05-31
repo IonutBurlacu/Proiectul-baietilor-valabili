@@ -2,51 +2,47 @@
 
 class QuestionController {
 
-	protected $layout;
-
-    public function __construct(){
-        $this->layout = array('header' => "user/layout/header", 'footer' => "user/layout/footer");
-        $this->layout["vars"] = array();
-        $this->layout["vars"]["categories"] = DB::query("SELECT id, title FROM category");
-    }
-
-	public function show(){
+	public function details(){
 		$id = Input::get('id');
-		$question = DB::query("SELECT question.id as question_id, question.title, question.content, question.created_at, user.id as user_id, user.first_name, user.last_name, user.avatar FROM question INNER JOIN user ON user.id = question.user_id WHERE question.id = '$id'")[0];
-		if($question == NULL){
-			return Redirect::to('/');
-		}
-		else {
+		$question = DB::query("SELECT question.id as question_id, question.title, question.content, question.created_at, user.id as user_id, user.first_name, user.last_name FROM question INNER JOIN user ON user.id = question.user_id WHERE question.id = '$id'")[0];
+
+		if($question != null){
 			$upvotes = DB::query("SELECT COUNT(*) as count FROM vote_question WHERE question_id = '$id' AND type = 2")[0]['count'];
 			$downvotes = DB::query("SELECT COUNT(*) as count FROM vote_question WHERE question_id = '$id' AND type = 1")[0]['count'];
 			$question['votes'] = $upvotes - $downvotes;
-			$user_id = Auth::getUserId();
-			$question['voted'] = DB::query("SELECT type FROM vote_question WHERE question_id = '$id' AND user_id = '$user_id'")[0]['type'];
-			$question['answers'] = DB::query("SELECT answer.id as answer_id, answer.content, answer.created_at, user.id AS user_id, user.first_name, user.last_name, user.avatar FROM answer INNER JOIN user ON user.id = answer.user_id ORDER BY answer.created_at DESC");
+			
+			$question['answers'] = DB::query("SELECT answer.id as answer_id, answer.content, answer.created_at, user.id AS user_id, user.first_name, user.last_name FROM answer INNER JOIN user ON user.id = answer.user_id ORDER BY answer.created_at DESC");
 			foreach($question['answers'] as &$answer){
 				$upvotes = DB::query("SELECT COUNT(*) as count FROM vote_answer WHERE answer_id = '". $answer['answer_id'] . "' AND type = 2")[0]['count'];
 				$downvotes = DB::query("SELECT COUNT(*) as count FROM vote_answer WHERE answer_id = '". $answer['answer_id'] . "' AND type = 1")[0]['count'];
 				$answer['votes'] = $upvotes - $downvotes;
-				$answer['voted'] = DB::query("SELECT type FROM vote_answer WHERE answer_id = '". $answer['answer_id'] ."' AND user_id = '$user_id'")[0]['type'];
+				
 			}
-
-			return View::makeWithLayout('user/question/details', $this->layout, array('question' => $question));
 		}
+		else {
+			$question = array();
+		}
+
+		header('Content-Type: application/json');
+		echo json_encode($question);
+		return;
 	}
 
-	public function categoryIndex(){
+	public function category(){
 		$id = Input::get('id');
 		$questions = DB::query("SELECT question.id as question_id, question.title, question.created_at, user.id as user_id, user.first_name, user.last_name FROM question INNER JOIN user ON question.user_id = user.id WHERE question.category_id = '$id'");
 		foreach($questions as &$question){
-			$question['tags'] = DB::query("SELECT id, content FROM tag WHERE question_id = '".$question["question_id"]. "'");
+			$question['tags'] = DB::query("SELECT content FROM tag WHERE question_id = '".$question["question_id"]. "'");
 			$upvotes = DB::query("SELECT COUNT(*) as count FROM vote_question WHERE question_id = '".$question["question_id"]. "' AND type = 2")[0]['count'];
 			$downvotes = DB::query("SELECT COUNT(*) as count FROM vote_question WHERE question_id = '".$question["question_id"]. "' AND type = 1")[0]['count'];
 			$question['votes_count'] = $upvotes - $downvotes;
     		$question['answers_count'] = DB::query("SELECT COUNT(*) as count FROM answer WHERE question_id = '".$question["question_id"]. "'")[0]["count"];
     		$question['user_answers'] = DB::query("SELECT COUNT(*) as count FROM answer WHERE user_id = '".$question["user_id"]. "'")[0]["count"];
 		}
-		$category = DB::query("SELECT category.title FROM category WHERE id = '$id'")[0]['title'];
-		return View::makeWithLayout('user/category/index', $this->layout, array('questions' => $questions, 'category' => $category));
+
+		header('Content-Type: application/json');
+		echo json_encode($questions);
+		return;
 	}
 
 	public function indexAsk(){
@@ -54,7 +50,7 @@ class QuestionController {
 	}
 
 	public function ask(){
-		$user_id = Auth::getUserId();
+		$user_id = $_SESSION['user_id'];
 		$category_id = Input::post('category');
 		$title = Input::post('title');
 		$content = Input::post('content');
@@ -81,7 +77,7 @@ class QuestionController {
 	}
 
 	public function answer(){
-		$user_id = Auth::getUserId();
+		$user_id = $_SESSION['user_id'];
 		$question_id = Input::post('question_id');
 		$content = Input::post('content');
 		$created_at = date('Y-m-d H:i:s');

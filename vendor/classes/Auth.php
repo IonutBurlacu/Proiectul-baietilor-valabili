@@ -5,9 +5,6 @@ class Auth {
 	public static function login(array $credentials){
 		$email = $credentials['email'];
 		$password = md5($credentials['password']);
-
-				// var_dump($_SESSION);
-				// return;
 		$result = DB::query("SELECT id, password FROM user WHERE email = '$email'");
 		if(count($result) > 0){
 			if($password == $result[0]['password']){
@@ -29,13 +26,16 @@ class Auth {
 		$password2 = $info['password2'];
 		$first_name = $info['first_name'];
 		$last_name = $info['last_name'];
+		$gender = $info['gender'];
+		$avatar = ($gender == 1) ? "male.png" : "female.png";
 
-		if($email != "" && $password != "" && $first_name != "" && $last_name != ""){
+		if($email != "" && $password != "" && $first_name != "" && $last_name != "" && $gender != ""){
 			if($password == $password2){
 				$result = DB::query("SELECT COUNT(*) as count FROM user WHERE email = '$email'");
 				if($result[0]['count'] == 0){
 					$password = md5($password);
-					DB::query("INSERT INTO user(`email`,`password`,`first_name`,`last_name`) VALUES ('$email','$password','$first_name','$last_name')");
+
+					DB::query("INSERT INTO user(`email`,`password`,`first_name`,`last_name`,`gender`,`avatar`) VALUES ('$email','$password','$first_name','$last_name','$gender','$avatar')", "insert");
 					return array('success' => 1);
 				}
 				else {
@@ -58,6 +58,10 @@ class Auth {
 		else {
 			return 0;
 		}
+	}
+
+	public static function getUserId(){
+		return $_SESSION['user_id'];
 	}
 
 	public static function logout(){

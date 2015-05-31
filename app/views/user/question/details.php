@@ -2,14 +2,25 @@
 	<h4><?php echo $question['title']; ?></h4>
 	<article class="content">
 		<aside class="left-side">
+			<span class="user-id" id="<?php echo Auth::getUserId(); ?>"></span>
 			<div class="avatar">
-				<img src="/public/img/avatar.jpg" alt="">
+				<img src="<?php URL::to('/public/img/avatar/' . $question['avatar']); ?>" alt="avatar">
 			</div>
-			<a href="" class="profile-name"><?php echo $question['first_name'] . " " . $question['last_name']; ?></a>
+			<a href="<?php URL::to('/profile?id=' . $question['user_id']); ?>" class="profile-name"><?php echo $question['first_name'] . " " . $question['last_name']; ?></a>
 			<div class="vote">
-				<img src="public/img/up-arrow.png" alt="" class="arrow">
-				<p><?php echo $question['votes']; ?></p>
-				<img src="public/img/down-arrow.png" alt="" class="arrow">
+				<?php if($question['voted'] == NULL){ ?>
+					<span class="up-arrow" onclick="voteQuestion(this, <?php echo $question['question_id']; ?>, 2)"></span>
+					<p><?php echo $question['votes']; ?></p>
+					<span class="down-arrow" onclick="voteQuestion(this, <?php echo $question['question_id']; ?>, 1)"></span>
+				<?php } else if($question['voted'] == 1) { ?>
+					<span class="up-arrow" onclick="voteQuestion(this, <?php echo $question['question_id']; ?>, 2)"></span>
+					<p><?php echo $question['votes']; ?></p>
+					<span class="down-arrow voted" onclick="voteQuestion(this, <?php echo $question['question_id']; ?>, 1, 1)"></span>
+				<?php } else { ?>
+					<span class="up-arrow voted" onclick="voteQuestion(this, <?php echo $question['question_id']; ?>, 2, 1)"></span>
+					<p><?php echo $question['votes']; ?></p>
+					<span class="down-arrow" onclick="voteQuestion(this, <?php echo $question['question_id']; ?>, 1)"></span>
+				<?php } ?>
 			</div>
 		</aside>
 		<aside class="right-side">
@@ -18,9 +29,9 @@
 			</div>
 			<p class="posted">asked on <?php echo date("M d \a\\t H:i", strtotime($question['created_at'])); ?></p>
 			<?php if($_SESSION['user_id'] == $question['user_id']) { ?>
-				<a href="<?php URL::to('/question/delete?id=' . $question['question_id']); ?>" class="report">Delete question</a>
+				<a href="<?php URL::to('/question/delete?id=' . $question['question_id']); ?>" class="delete">Delete question</a>
 			<?php } else { ?>
-				<a href="<?php URL::to('/question/report?id=' . $question['question_id']); ?>">Report question</a>
+				<a href="<?php URL::to('/question/report?id=' . $question['question_id']); ?>" class="report">Report question</a>
 			<?php } ?>
 		</aside>
 		<div class="clear-float"></div>
@@ -41,7 +52,7 @@
 			</form>
 		</div>
 	<?php } else { ?>
-		<h4><a href="<?php URL::to('/login'); ?>">Login</a> to post an answer</h4>
+		<h4 style="border:none;"><a href="<?php URL::to('/login'); ?>">Login</a> to post an answer</h4>
 	<?php } ?>
 	<h5><?php if(count($question['answers']) != 1) {echo count($question['answers']) . " Answers";} else {echo "1 Answer";} ?></h5>
 
@@ -49,13 +60,23 @@
 		<article class="content answer">
 			<aside class="left-side">
 				<div class="avatar">
-					<img src="/public/img/avatar2.jpg" alt="">
+					<img src="<?php URL::to('/public/img/avatar/' . $answer['avatar']); ?>" alt="avatar">
 				</div>
-				<a href="" class="profile-name"><?php echo $answer['first_name'] . " " . $answer['last_name']; ?></a>
+				<a href="<?php URL::to('/profile?id=' . $answer['user_id']); ?>" class="profile-name"><?php echo $answer['first_name'] . " " . $answer['last_name']; ?></a>
 				<div class="vote">
-					<img src="public/img/up-arrow.png" alt="" class="arrow">
-					<p><?php echo $answer['votes']; ?></p>
-					<img src="public/img/down-arrow.png" alt="" class="arrow">
+					<?php if($answer['voted'] == NULL){ ?>
+						<span class="up-arrow" onclick="voteAnswer(this, <?php echo $answer['answer_id']; ?>, 2)"></span>
+						<p><?php echo $answer['votes']; ?></p>
+						<span class="down-arrow" onclick="voteAnswer(this, <?php echo $answer['answer_id']; ?>, 1)"></span>
+					<?php } else if($answer['voted'] == 1) { ?>
+						<span class="up-arrow" onclick="voteAnswer(this, <?php echo $answer['answer_id']; ?>, 2)"></span>
+						<p><?php echo $answer['votes']; ?></p>
+						<span class="down-arrow voted" onclick="voteAnswer(this, <?php echo $answer['answer_id']; ?>, 1, 1)"></span>
+					<?php } else { ?>
+						<span class="up-arrow voted" onclick="voteAnswer(this, <?php echo $answer['answer_id']; ?>, 2, 1)"></span>
+						<p><?php echo $answer['votes']; ?></p>
+						<span class="down-arrow" onclick="voteAnswer(this, <?php echo $answer['answer_id']; ?>, 1)"></span>
+					<?php } ?>
 				</div>
 			</aside>
 			<aside class="right-side">
@@ -64,9 +85,9 @@
 				</div>
 				<p class="posted">posted on <?php echo date("M d \a\\t H:i", strtotime($answer['created_at'])); ?></p>
 				<?php if($_SESSION['user_id'] == $answer['user_id']) { ?>
-					<a href="<?php URL::to('/answer/delete?id=' . $answer['answer_id']); ?>" class="report">Delete answer</a>
+					<a href="<?php URL::to('/answer/delete?id=' . $answer['answer_id']); ?>" class="delete">Delete answer</a>
 				<?php } else { ?>
-					<a href="<?php URL::to('/answer/report?id=' . $answer['answer_id']); ?>">Report answer</a>
+					<a href="<?php URL::to('/answer/report?id=' . $answer['answer_id']); ?>" class="report">Report answer</a>
 				<?php } ?>
 			</aside>
 			<div class="clear-float"></div>

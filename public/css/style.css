@@ -330,6 +330,34 @@ header > .search-bar input:-ms-input-placeholder { /* Internet Explorer 10+ */
 	cursor: pointer;
 }
 
+.content > .left-side > .vote > .up-arrow {
+	width: 0; 
+	height: 0; 
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-bottom: 15px solid #cccccc;
+	display: block;
+	margin: 0 auto;
+	cursor: pointer;
+}
+
+.content > .left-side > .vote > .down-arrow {
+	width: 0; 
+	height: 0; 
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-top: 15px solid #cccccc;
+	display: block;
+	margin: 0 auto;
+	cursor: pointer;
+}
+
+.content > .left-side > .vote > .voted {
+	border-color: #F9BC1E;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
 .content > .left-side > .vote > p {
 	margin: 3px 0px;
 	font-weight: bold;
@@ -359,6 +387,15 @@ header > .search-bar input:-ms-input-placeholder { /* Internet Explorer 10+ */
 	bottom: 0px;
 	right: 0px;
 	background-color: #E9163E;
+	color: white;
+	padding: 3px 5px;
+}
+
+.content > .right-side > .delete {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	background-color: black;
 	color: white;
 	padding: 3px 5px;
 }
@@ -397,16 +434,20 @@ header > .search-bar input:-ms-input-placeholder { /* Internet Explorer 10+ */
 }
 
 .form-group > label {
+	line-height: 34px;
+}
+
+.form-group > .form-label {
 	width: 150px;
 	display: block;
 	float: left;
 	text-align: right;
 	margin-right: 10px;
-	line-height: 34px;
 	font-size: 17px;
+	font-weight: bold;
 }
 
-.form-group > input,
+.form-group > .form-input,
 .form-group > textarea,
 .form-group > select {
 	font-size: 17px;
@@ -445,4 +486,61 @@ header > .search-bar input:-ms-input-placeholder { /* Internet Explorer 10+ */
 	text-decoration: none;
 	padding: 5px;
 	border: 0px;
+}
+
+/* Profile */
+
+.profile {
+	margin-top: 15px;
+	margin-left: 15px;
+}
+
+.profile > .left-side {
+	width: 20%;
+	margin-right: 4%;
+}
+
+.profile > .left-side > img {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 50%;
+	border: 2px solid #07B4F2;
+	margin: 0 auto;
+	position: relative;
+	display: block;
+	overflow: hidden;
+}
+
+.profile > .left-side > button {
+	color: white;
+	font-size: 16px;
+	font-family: 'Roboto';
+	text-decoration: none;
+	padding: 5px;
+	border: none;
+	margin-top: 5px;
+}
+
+.profile > .left-side > #choose-file {
+	display: block;
+	background-color: #0074F8;
+	width: 100%;
+}
+
+.profile > .left-side > #save-file {
+	display: inline-block;
+	width: 48%;
+	margin-right: 2%;
+	background-color: #00A815;
+	float: left;
+	display: none;
+} 
+
+.profile > .left-side > #cancel-file {
+	display: inline-block;
+	width: 48%;
+	margin-left: 2%;
+	background-color: #E40101;
+	display: none;
 }

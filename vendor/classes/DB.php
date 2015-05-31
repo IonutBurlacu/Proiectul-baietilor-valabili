@@ -11,7 +11,6 @@ class DB {
 	public static function boot(){
 		self::$db = new PDO("mysql:host=localhost;dbname=adwise", "adwise", "adwise2015");
 		self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		// self::$db->select_db("adwise");
 	}
 
 	public static function query($query, $type = "select"){
