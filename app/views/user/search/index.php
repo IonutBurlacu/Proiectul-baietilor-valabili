@@ -9,8 +9,8 @@
 			<?php foreach($questions as $question) { ?>
 				<li>
 					<div class="left-side">
-						<p><?php echo $question['votes_count']; ?> votes</p>
-						<p><?php echo $question['answers_count']; ?> answers</p>
+						<p><?php if($question['votes_count'] == 1 || $question['votes_count'] == -1) {echo $question['votes_count'] . " vote";} else {echo $question['votes_count'] . " votes";} ?></p>
+						<p><?php if($question['answers_count'] == 1 || $question['answers_count'] == -1) {echo $question['answers_count'] . " answer";} else {echo $question['answers_count'] . " answers";} ?></p>
 					</div>
 					<div class="right-side">
 						<a href="<?php URL::to('/question?id=' . $question['question_id']); ?>"><?php echo $question['title']; ?></a>
@@ -29,6 +29,21 @@
 					</div>
 					<div class="clear-float"></div>
 				</li>
+			<?php } ?>
+		</ul>
+		<ul class="pagination">
+			<?php if($page == 1){ ?>
+				<li class="inactive"><span>Previous</span></li>
+			<?php } else { ?>
+				<li><a href="<?php URL::to('/?page=' . ($page-1) . '&query=' . $query) ?>">Previous</a></li>
+				<li><a href="<?php URL::to('/?page=' . ($page-1) . '&query=' . $query) ?>"><?php echo $page-1; ?></a></li>
+			<?php } ?>
+			<li class="active"><a href="<?php URL::to('/?page=' . ($page) . '&query=' . $query) ?>"><?php echo $page; ?></a></li>
+			<?php if($page >= intval($count/10)){ ?>
+				<li class="inactive"><span>Next</span></li>
+			<?php } else { ?>
+				<li><a href="<?php URL::to('/?page=' . ($page+1) . '&query=' . $query) ?>"><?php echo $page+1; ?></a></li>
+				<li><a href="<?php URL::to('/?page=' . ($page+1) . '&query=' . $query) ?>">Next</a></li>
 			<?php } ?>
 		</ul>
 	<?php } ?>

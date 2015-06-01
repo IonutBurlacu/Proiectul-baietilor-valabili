@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Home page</title>
+		<title>Adwise</title>
 
 		<!-- CSS -->
 		<link rel="stylesheet" href="/public/css/style.css">
@@ -16,7 +16,7 @@
 		<main>
 			<header>
 				<div class="top">
-					<h3 class="logo">Adwise</h3>
+					<h3 class="logo"><a href="<?php URL::to('/'); ?>">Adwise</a></h3>
 					<nav>
 						<a href="<?php URL::to('/'); ?>" id="questions-link">Latest Questions</a>
 						<a href="<?php URL::to('/users'); ?>" id="users-link">Users</a>

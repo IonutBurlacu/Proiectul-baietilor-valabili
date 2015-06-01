@@ -28,10 +28,10 @@
 				<?php echo $question['content']; ?>
 			</div>
 			<p class="posted">asked on <?php echo date("M d \a\\t H:i", strtotime($question['created_at'])); ?></p>
-			<?php if($_SESSION['user_id'] == $question['user_id']) { ?>
+			<?php if(Auth::getUserId() == $question['user_id']) { ?>
 				<a href="<?php URL::to('/question/delete?id=' . $question['question_id']); ?>" class="delete">Delete question</a>
-			<?php } else { ?>
-				<a href="<?php URL::to('/question/report?id=' . $question['question_id']); ?>" class="report">Report question</a>
+			<?php } else if(Auth::getUserId() != NULL && !$question['reported']) { ?>
+				<a href="<?php URL::to('/report-question?question_id=' . $question['question_id'] . '&user_id=' . Auth::getUserId()); ?>" class="report">Report question</a>
 			<?php } ?>
 		</aside>
 		<div class="clear-float"></div>
@@ -86,8 +86,8 @@
 				<p class="posted">posted on <?php echo date("M d \a\\t H:i", strtotime($answer['created_at'])); ?></p>
 				<?php if($_SESSION['user_id'] == $answer['user_id']) { ?>
 					<a href="<?php URL::to('/answer/delete?id=' . $answer['answer_id']); ?>" class="delete">Delete answer</a>
-				<?php } else { ?>
-					<a href="<?php URL::to('/answer/report?id=' . $answer['answer_id']); ?>" class="report">Report answer</a>
+				<?php } else if(Auth::getUserId() != NULL && !$answer['reported']) { ?>
+					<a href="<?php URL::to('/report-answer?question_id=' . $question['question_id'] . '&user_id=' . Auth::getUserId() . '&answer_id=' . $answer['answer_id']); ?>" class="report">Report answer</a>
 				<?php } ?>
 			</aside>
 			<div class="clear-float"></div>

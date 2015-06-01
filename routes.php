@@ -1,5 +1,7 @@
 <?php
 
+    Route::get('/seed', 'User/QuestionController@seed');
+
     Route::get('/', 'User/HomeController@latest');
 
     Route::get('/login', 'User/UserController@indexLogin');
@@ -23,6 +25,9 @@
     Route::post('/vote-question', 'User/QuestionController@voteQuestion');
     Route::post('/vote-answer', 'User/QuestionController@voteAnswer');
 
+    Route::get('/report-question', 'User/QuestionController@reportQuestion');
+    Route::get('/report-answer', 'User/QuestionController@reportAnswer');
+
     Route::get('/profile', 'User/UserController@profileIndex');
     Route::post('/profile/avatar', 'User/UserController@saveAvatar');
 
@@ -45,10 +50,10 @@
     Route::post('/api/ask', 'Api/QuestionController@ask');
     Route::post('/api/answer', 'Api/QuestionController@answer');
 
-    Route::post('/vote-question', 'Api/QuestionController@voteQuestion');
-    Route::post('/vote-answer', 'Api/QuestionController@voteAnswer');
+    Route::post('/api/vote-question', 'Api/QuestionController@voteQuestion');
+    Route::post('/api/vote-answer', 'Api/QuestionController@voteAnswer');
 
-    Route::post('/delete-question', 'Api/QuestionController@deleteQuestion');
-    Route::post('/delete-answer', 'Api/QuestionController@deleteAnswer');
+    Route::post('/api/delete-question', 'Api/QuestionController@deleteQuestion');
+    Route::post('/api/delete-answer', 'Api/QuestionController@deleteAnswer');
 
  ?>

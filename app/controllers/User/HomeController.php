@@ -10,7 +10,9 @@
         }
 
         public function latest(){
-        	$latestQuestions = DB::query("SELECT question.id as question_id, question.content, question.title, user.id as user_id, user.first_name, user.last_name FROM question INNER JOIN user ON question.user_id = user.id ORDER BY question.created_at DESC LIMIT 20");
+            $page = (Input::get('page') != null) ? Input::get('page') : 1;
+            $questionsCount = DB::query("SELECT COUNT(*) AS count FROM question")[0]['count'];
+        	$latestQuestions = DB::query("SELECT question.id as question_id, question.content, question.title, user.id as user_id, user.first_name, user.last_name FROM question INNER JOIN user ON question.user_id = user.id ORDER BY question.created_at DESC LIMIT 10 OFFSET ".($page-1)*10);
         	foreach($latestQuestions as &$question){
         		$question_id = $question['question_id'];
         		$question['tags'] = DB::query("SELECT id, content FROM tag WHERE question_id = '".$question["question_id"]. "'");
@@ -20,7 +22,7 @@
         		$question['answers_count'] = DB::query("SELECT COUNT(*) as count FROM answer WHERE question_id = '".$question["question_id"]. "'")[0]["count"];
         		$question['user_answers'] = DB::query("SELECT COUNT(*) as count FROM answer WHERE user_id = '".$question["user_id"]. "'")[0]["count"];
         	}
-        	return View::makeWithLayout('user/home/index', $this->layout, array("latestQuestions" => $latestQuestions));
+        	return View::makeWithLayout('user/home/index', $this->layout, array("latestQuestions" => $latestQuestions, 'page' => $page, 'count' => $questionsCount));
         }
 
         

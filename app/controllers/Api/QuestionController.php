@@ -105,7 +105,7 @@ class QuestionController {
 
 		DB::query("DELETE FROM vote_question WHERE user_id = '$user_id' AND question_id = '$question_id'", "delete");
 		if($voted == NULL){
-			DB::query("INSERT INTO vote_question VALUES ('$user_id','$question_id','$type')");
+			DB::query("INSERT INTO vote_question VALUES ('$user_id','$question_id','$type')", "insert");
 		}
 
 		header('Content-Type: application/json');
@@ -121,7 +121,7 @@ class QuestionController {
 
 		DB::query("DELETE FROM vote_answer WHERE user_id = '$user_id' AND answer_id = '$answer_id'", "delete");
 		if($voted == NULL){
-			DB::query("INSERT INTO vote_answer VALUES ('$user_id','$answer_id','$type')");
+			DB::query("INSERT INTO vote_answer VALUES ('$user_id','$answer_id','$type')", "insert");
 		}
 
 		header('Content-Type: application/json');
