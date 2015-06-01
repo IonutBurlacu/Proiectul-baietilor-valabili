@@ -19,7 +19,7 @@ class App {
 	}
 
 	public static function boot(){
-		// error_reporting(0);
+		error_reporting(0);
 		/* Require all vendor classes */
 		foreach (glob("vendor/classes/*.php") as $filename){
 		    include $filename;

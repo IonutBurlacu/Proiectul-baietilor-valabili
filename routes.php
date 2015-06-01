@@ -37,5 +37,18 @@
 
     Route::get('/api/category', 'Api/QuestionController@category');
     Route::get('/api/question', 'Api/QuestionController@details');
+    Route::get('/api/latest', 'Api/QuestionController@latest');
+
+    Route::get('/api/users', 'Api/UserController@usersList');
+    Route::get('/api/profile', 'Api/UserController@profile');
+
+    Route::post('/api/ask', 'Api/QuestionController@ask');
+    Route::post('/api/answer', 'Api/QuestionController@answer');
+
+    Route::post('/vote-question', 'Api/QuestionController@voteQuestion');
+    Route::post('/vote-answer', 'Api/QuestionController@voteAnswer');
+
+    Route::post('/delete-question', 'Api/QuestionController@deleteQuestion');
+    Route::post('/delete-answer', 'Api/QuestionController@deleteAnswer');
 
  ?>

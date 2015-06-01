@@ -24,7 +24,7 @@
 							</ul>
 						<?php } ?>
 						<div class="asked-by">
-							<span>asked by </span><a href="#"><?php echo $question['first_name'] . " " . $question['last_name']; ?></a>
+							<span>asked by </span><a href="<?php URL::to('/profile?id=' . $question['user_id']); ?>"><?php echo $question['first_name'] . " " . $question['last_name']; ?></a>
 						</div>
 					</div>
 					<div class="clear-float"></div>

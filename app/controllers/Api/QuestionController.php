@@ -16,7 +16,6 @@ class QuestionController {
 				$upvotes = DB::query("SELECT COUNT(*) as count FROM vote_answer WHERE answer_id = '". $answer['answer_id'] . "' AND type = 2")[0]['count'];
 				$downvotes = DB::query("SELECT COUNT(*) as count FROM vote_answer WHERE answer_id = '". $answer['answer_id'] . "' AND type = 1")[0]['count'];
 				$answer['votes'] = $upvotes - $downvotes;
-				
 			}
 		}
 		else {
@@ -45,12 +44,25 @@ class QuestionController {
 		return;
 	}
 
-	public function indexAsk(){
-		return View::makeWithLayout('user/question/ask', $this->layout);	
+	public function latest(){
+		$latestQuestions = DB::query("SELECT question.id as question_id, question.content, question.title, user.id as user_id, user.first_name, user.last_name FROM question INNER JOIN user ON question.user_id = user.id ORDER BY question.created_at DESC LIMIT 20");
+    	foreach($latestQuestions as &$question){
+    		$question_id = $question['question_id'];
+    		$question['tags'] = DB::query("SELECT id, content FROM tag WHERE question_id = '".$question["question_id"]. "'");
+            $upvotes = DB::query("SELECT COUNT(*) as count FROM vote_question WHERE question_id = '".$question["question_id"]. "' AND type = 2")[0]['count'];
+            $downvotes = DB::query("SELECT COUNT(*) as count FROM vote_question WHERE question_id = '".$question["question_id"]. "' AND type = 1")[0]['count'];
+            $question['votes_count'] = $upvotes - $downvotes;
+    		$question['answers_count'] = DB::query("SELECT COUNT(*) as count FROM answer WHERE question_id = '".$question["question_id"]. "'")[0]["count"];
+    		$question['user_answers'] = DB::query("SELECT COUNT(*) as count FROM answer WHERE user_id = '".$question["user_id"]. "'")[0]["count"];
+    	}
+
+    	header('Content-Type: application/json');
+		echo json_encode(array("questions" => $latestQuestions));
+		return;
 	}
 
 	public function ask(){
-		$user_id = $_SESSION['user_id'];
+		$user_id = Input::post('user_id');
 		$category_id = Input::post('category');
 		$title = Input::post('title');
 		$content = Input::post('content');
@@ -66,18 +78,13 @@ class QuestionController {
 			DB::query("INSERT INTO tag(`question_id`,`content`) VALUES('$question_id','$tag')", "insert");
 		}
 
-		return Redirect::to('/category?id=' . $category_id);
-	}
-
-	public function deleteQuestion(){
-		$id = Input::get('id');
-		DB::query("DELETE FROM question WHERE id = '$id'", "delete");
-
-		return Redirect::to('/');
+		header('Content-Type: application/json');
+		echo json_encode(array("success" => 1, "message" => "Question registered."));
+		return;
 	}
 
 	public function answer(){
-		$user_id = $_SESSION['user_id'];
+		$user_id = Input::post('user_id');
 		$question_id = Input::post('question_id');
 		$content = Input::post('content');
 		$created_at = date('Y-m-d H:i:s');
@@ -85,16 +92,9 @@ class QuestionController {
 		/* save answer */
 		DB::query("INSERT INTO answer(`user_id`,`question_id`,`content`,`created_at`) VALUES ('$user_id','$question_id','$content','$created_at')", "insert");
 
-		return Redirect::to('/question?id=' . $question_id);
-	}
-
-	public function deleteAnswer(){
-		$id = Input::get('id');
-		$question_id = DB::query("SELECT question_id FROM answer WHERE id = '$id'")[0]['question_id'];
-
-		DB::query("DELETE FROM answer WHERE id = '$id'", "delete");
-
-		return Redirect::to('/question?id=' . $question_id);	
+		header('Content-Type: application/json');
+		echo json_encode(array("success" => 1, "message" => "Answer registered."));
+		return;
 	}
 
 	public function voteQuestion(){
@@ -107,6 +107,10 @@ class QuestionController {
 		if($voted == NULL){
 			DB::query("INSERT INTO vote_question VALUES ('$user_id','$question_id','$type')");
 		}
+
+		header('Content-Type: application/json');
+		echo json_encode(array("success" => 1, "message" => "Vote registered."));
+		return;
 	}
 
 	public function voteAnswer(){
@@ -119,6 +123,30 @@ class QuestionController {
 		if($voted == NULL){
 			DB::query("INSERT INTO vote_answer VALUES ('$user_id','$answer_id','$type')");
 		}
+
+		header('Content-Type: application/json');
+		echo json_encode(array("success" => 1, "message" => "Vote registered."));
+		return;
+	}
+
+	public function deleteQuestion(){
+		$id = Input::get('id');
+		DB::query("DELETE FROM question WHERE id = '$id'", "delete");
+
+		header('Content-Type: application/json');
+		echo json_encode(array("success" => 1, "message" => "Question deleted."));
+		return;
+	}
+
+	public function deleteAnswer(){
+		$id = Input::get('id');
+		$question_id = DB::query("SELECT question_id FROM answer WHERE id = '$id'")[0]['question_id'];
+
+		DB::query("DELETE FROM answer WHERE id = '$id'", "delete");
+
+		header('Content-Type: application/json');
+		echo json_encode(array("success" => 1, "message" => "Answer deleted."));
+		return;
 	}
 
 }
