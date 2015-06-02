@@ -683,5 +683,21 @@ header > .search-bar input:-ms-input-placeholder { /* Internet Explorer 10+ */
 	background-color: #A7CAF2;
 }
 
+/* Footer */
+
+footer {
+	margin-top: 40px;
+	width: 100%;
+	border-top: 1px solid #cccccc;
+	height: 100px;
+}
+
+footer > h4 {
+	text-align: center;
+	line-height: 100px;
+	font-size: 20px;
+	margin: 0px;
+	font-family: 'Roboto';
+}
 
 

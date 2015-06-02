@@ -19,7 +19,6 @@ class Route {
 	}
 
 	public static function listen(){
-
 		$method = $_SERVER['REQUEST_METHOD'];
 		$path = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 		$url = parse_url($path, PHP_URL_PATH);

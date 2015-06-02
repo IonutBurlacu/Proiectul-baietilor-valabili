@@ -1,6 +1,25 @@
 <?php
 
-    Route::get('/seed', 'User/QuestionController@seed');
+    if(Auth::getUserId() != null){
+        /* Auth routes */
+        Route::get('/logout', 'User/UserController@logout');
+
+        Route::get('/ask', 'User/QuestionController@indexAsk');
+        Route::post('/ask', 'User/QuestionController@ask');
+
+        Route::post('/answer', 'User/QuestionController@answer');
+        Route::get('/answer/delete', 'User/QuestionController@deleteAnswer');
+        Route::get('/question/delete', 'User/QuestionController@deleteQuestion');
+
+        Route::post('/vote-question', 'User/QuestionController@voteQuestion');
+        Route::post('/vote-answer', 'User/QuestionController@voteAnswer');
+
+        Route::get('/report-question', 'User/QuestionController@reportQuestion');
+        Route::get('/report-answer', 'User/QuestionController@reportAnswer');
+
+        Route::get('/profile/edit', 'User/UserController@editProfileIndex');
+        Route::post('/profile/edit', 'User/UserController@editProfile');
+    }
 
     Route::get('/', 'User/HomeController@latest');
 
@@ -10,29 +29,18 @@
     Route::get('/register', 'User/UserController@indexRegister');
     Route::post('/register', 'User/UserController@register');
 
-    Route::get('/logout', 'User/UserController@logout');
+    Route::get('/forgot', 'User/UserController@forgotIndex');
+    Route::post('/forgot', 'User/UserController@forgot');
 
-    Route::get('/ask', 'User/QuestionController@indexAsk');
-    Route::post('/ask', 'User/QuestionController@ask');
+    Route::get('/reset', 'User/UserController@resetIndex');
+    Route::post('/reset', 'User/UserController@reset');
 
     Route::get('/category', 'User/QuestionController@categoryIndex');
 
     Route::get('/question', 'User/QuestionController@show');
-    Route::post('/answer', 'User/QuestionController@answer');
-    Route::get('/answer/delete', 'User/QuestionController@deleteAnswer');
-    Route::get('/question/delete', 'User/QuestionController@deleteQuestion');
-
-    Route::post('/vote-question', 'User/QuestionController@voteQuestion');
-    Route::post('/vote-answer', 'User/QuestionController@voteAnswer');
-
-    Route::get('/report-question', 'User/QuestionController@reportQuestion');
-    Route::get('/report-answer', 'User/QuestionController@reportAnswer');
 
     Route::get('/profile', 'User/UserController@profileIndex');
     Route::post('/profile/avatar', 'User/UserController@saveAvatar');
-
-    Route::get('/profile/edit', 'User/UserController@editProfileIndex');
-    Route::post('/profile/edit', 'User/UserController@editProfile');
 
     Route::get('/users', 'User/UserController@usersList');
 

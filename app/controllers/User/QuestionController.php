@@ -88,6 +88,8 @@ class QuestionController {
     	}
     }
 
+    /* This method is used to display details about a question including answers based on the id */
+
 	public function show(){
 		$id = Input::get('id');
 		$question = DB::query("SELECT question.id as question_id, question.title, question.content, question.created_at, user.id as user_id, user.first_name, user.last_name, user.avatar FROM question INNER JOIN user ON user.id = question.user_id WHERE question.id = '$id'")[0];
@@ -128,6 +130,8 @@ class QuestionController {
 		}
 	}
 
+	/* This method is used to display questions by category based on id */
+
 	public function categoryIndex(){
 		$id = Input::get('id');
 		$page = (Input::get('page') != null) ? Input::get('page') : 1;
@@ -145,9 +149,13 @@ class QuestionController {
 		return View::makeWithLayout('user/category/index', $this->layout, array('questions' => $questions, 'category' => $category, 'page' => $page, 'count' => $questionsCount));
 	}
 
+	/* This method is used to display the view used to post a question */
+
 	public function indexAsk(){
 		return View::makeWithLayout('user/question/ask', $this->layout);	
 	}
+
+	/* This method is used to save a question in database */
 
 	public function ask(){
 		$user_id = Auth::getUserId();
@@ -183,12 +191,16 @@ class QuestionController {
 		return Redirect::to('/category?id=' . $category_id);
 	}
 
+	/* This method is used to delete a question from database based on id */
+
 	public function deleteQuestion(){
 		$id = Input::get('id');
 		DB::query("DELETE FROM question WHERE id = '$id'", "delete");
 
 		return Redirect::to('/');
 	}
+
+	/* This method is used to save an answer in database */
 
 	public function answer(){
 		$user_id = Auth::getUserId();
@@ -202,6 +214,8 @@ class QuestionController {
 		return Redirect::to('/question?id=' . $question_id);
 	}
 
+	/* This method is used to delete an answer from database based on id */
+
 	public function deleteAnswer(){
 		$id = Input::get('id');
 		$question_id = DB::query("SELECT question_id FROM answer WHERE id = '$id'")[0]['question_id'];
@@ -210,6 +224,8 @@ class QuestionController {
 
 		return Redirect::to('/question?id=' . $question_id);	
 	}
+
+	/* This method is used to vote a question through ajax */
 
 	public function voteQuestion(){
 		$user_id = Input::post('user_id');
@@ -240,13 +256,10 @@ class QuestionController {
 				DB::query("INSERT INTO user_badge VALUES ('$user_id', 3)", "insert");
 			}
 		}
-		
 
 		/* Nice question/Good question/Student */
 		$upVotesCount = DB::query("SELECT COUNT(*) AS count FROM vote_question WHERE question_id = '$question_id' AND type = 2")[0]['count'];
 		$otherUserId = DB::query("SELECT user_id FROM question WHERE id = '$question_id'")[0]['user_id'];
-		// var_dump($upVotesCount);
-		// return;
 		if($upVotesCount == 1){
 			//student
 			DB::query("DELETE FROM user_badge WHERE user_id = '$otherUserId' AND badge_id = 9", "delete");
@@ -264,6 +277,8 @@ class QuestionController {
 		}
 
 	}
+
+	/* This method is used to vote an answer through ajax */
 
 	public function voteAnswer(){
 		$user_id = Input::post('user_id');
@@ -296,6 +311,8 @@ class QuestionController {
 		}
 	}
 
+	/* This method is used to search questions by tags name */
+
 	public function search(){
 		$query = Input::get('query');
 		$tags = DB::query("SELECT question_id FROM tag WHERE content = '$query'");
@@ -326,6 +343,8 @@ class QuestionController {
     	return View::makeWithLayout('user/search/index', $this->layout, array("questions" => $questions, 'query' => $query, 'page' => $page, 'count' => $questionsCount));
 	}
 
+	/* This method is used to report a question based on id */
+
 	public function reportQuestion(){
 		$user_id = Input::get('user_id');
 		$question_id = Input::get('question_id');
@@ -341,6 +360,8 @@ class QuestionController {
 			return Redirect::to('/question?id=' . $question_id);
 		}
 	}
+
+	/* This method is used to report an answer based on id */
 
 	public function reportAnswer(){
 		$user_id = Input::get('user_id');

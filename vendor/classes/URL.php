@@ -6,6 +6,10 @@ class URL {
 		echo App::$baseUrl . $url;
 	}
 
+	public static function getTo($url){
+		return App::$baseUrl . $url;
+	}
+
 }
 
  ?>

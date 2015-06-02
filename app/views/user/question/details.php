@@ -84,7 +84,7 @@
 					<?php echo $answer['content']; ?>
 				</div>
 				<p class="posted">posted on <?php echo date("M d \a\\t H:i", strtotime($answer['created_at'])); ?></p>
-				<?php if($_SESSION['user_id'] == $answer['user_id']) { ?>
+				<?php if(Auth::getUserId() == $answer['user_id']) { ?>
 					<a href="<?php URL::to('/answer/delete?id=' . $answer['answer_id']); ?>" class="delete">Delete answer</a>
 				<?php } else if(Auth::getUserId() != NULL && !$answer['reported']) { ?>
 					<a href="<?php URL::to('/report-answer?question_id=' . $question['question_id'] . '&user_id=' . Auth::getUserId() . '&answer_id=' . $answer['answer_id']); ?>" class="report">Report answer</a>

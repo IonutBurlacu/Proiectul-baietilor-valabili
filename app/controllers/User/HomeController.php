@@ -9,6 +9,8 @@
             $this->layout["vars"]["categories"] = DB::query("SELECT id, title FROM category");
         }
 
+        /* This method is used to get latest question from database to display on home page */
+
         public function latest(){
             $page = (Input::get('page') != null) ? Input::get('page') : 1;
             $questionsCount = DB::query("SELECT COUNT(*) AS count FROM question")[0]['count'];

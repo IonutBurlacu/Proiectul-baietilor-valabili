@@ -50,14 +50,8 @@
 			<section class="home-categories">
 				<h4>Categories</h4>
 				<ul class="categories">
-					<?php 
-						foreach($categories as $cat){
-							echo "<li><a href='http://bucium.mobiletouch.ro:6010/category?id=" 
-							. $cat['id'] 
-							. "'>" 
-							. $cat['title'] 
-							. "</a></li>";
-						}
-					 ?>
+					<?php foreach($categories as $cat) { ?>
+						<li><a href="<?php URL::to('/category?id=' . $cat['id']); ?>"><?php echo $cat['title']; ?></a></li>
+					<?php } ?>
 				</ul>
 			</section>

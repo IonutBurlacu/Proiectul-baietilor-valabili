@@ -1,10 +1,6 @@
 <?php 
 ini_set("display_errors", 1);
 class DB {
-	private static $host = '127.0.0.1';
-	private static $dbname = 'adwise';
-	private static $username = 'root';
-	private static $password = '';
 
 	public static $db;
 

@@ -3,7 +3,7 @@
 class App {
 
 	private static $paths;
-	public static $baseUrl = "http://bucium.mobiletouch.ro:6010";
+	public static $baseUrl = "http://www.adwise.com";
 
 	public static function path($path){
 		return self::$paths[$path];
@@ -18,7 +18,7 @@ class App {
 		);
 	}
 
-	public static function boot(){
+	public static function boot(){ 	
 		// error_reporting(0);
 		/* Require all vendor classes */
 		foreach (glob("vendor/classes/*.php") as $filename){
@@ -32,6 +32,8 @@ class App {
 		DB::boot();
 		/* Initialize router */
 		Route::boot();
+
+
 	}
 
 }
