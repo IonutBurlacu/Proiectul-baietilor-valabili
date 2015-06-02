@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.12
+-- version 4.3.11
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 01, 2015 at 01:48 PM
--- Server version: 5.6.16
--- PHP Version: 5.5.11
+-- Generation Time: Jun 02, 2015 at 08:31 PM
+-- Server version: 5.6.24
+-- PHP Version: 5.6.8
 
 SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -28,15 +28,12 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `answer` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL,
   `question_id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
   `content` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `answer_question_id_foreign` (`question_id`),
-  KEY `answer_user_id_foreign` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5002 ;
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5000 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `answer`
@@ -5077,11 +5074,10 @@ INSERT INTO `answer` (`id`, `question_id`, `user_id`, `content`, `created_at`) V
 --
 
 CREATE TABLE IF NOT EXISTS `badge` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=11 ;
+  `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `badge`
@@ -5106,10 +5102,9 @@ INSERT INTO `badge` (`id`, `title`, `description`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `category` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=16 ;
+  `id` int(10) unsigned NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `category`
@@ -5137,10 +5132,9 @@ INSERT INTO `category` (`id`, `title`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `interest` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=21 ;
+  `id` int(10) unsigned NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `interest`
@@ -5205,16 +5199,13 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `question` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
   `category_id` int(10) unsigned NOT NULL,
   `title` text COLLATE utf8_unicode_ci NOT NULL,
   `content` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `question_user_id_foreign` (`user_id`),
-  KEY `question_category_id_foreign` (`category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=501 ;
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=501 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `question`
@@ -5735,9 +5726,7 @@ INSERT INTO `question` (`id`, `user_id`, `category_id`, `title`, `content`, `cre
 
 CREATE TABLE IF NOT EXISTS `report_answer` (
   `user_id` int(10) unsigned NOT NULL,
-  `answer_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`user_id`,`answer_id`),
-  KEY `report_answer_answer_id_foreign` (`answer_id`)
+  `answer_id` int(10) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -5757,9 +5746,7 @@ INSERT INTO `report_answer` (`user_id`, `answer_id`) VALUES
 
 CREATE TABLE IF NOT EXISTS `report_question` (
   `user_id` int(10) unsigned NOT NULL,
-  `question_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`user_id`,`question_id`),
-  KEY `report_question_question_id_foreign` (`question_id`)
+  `question_id` int(10) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -5776,12 +5763,10 @@ INSERT INTO `report_question` (`user_id`, `question_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `tag` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL,
   `question_id` int(10) unsigned NOT NULL,
-  `content` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `tag_question_id_foreign` (`question_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1516 ;
+  `content` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1516 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `tag`
@@ -7296,7 +7281,7 @@ INSERT INTO `tag` (`id`, `question_id`, `content`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
   `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -7304,34 +7289,34 @@ CREATE TABLE IF NOT EXISTS `user` (
   `phone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `gender` int(11) NOT NULL,
   `avatar` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=21 ;
+  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `email`, `password`, `first_name`, `last_name`, `phone`, `gender`, `avatar`) VALUES
-(1, 'email1@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First1', 'Last1', '', 2, 'female.png'),
-(2, 'email2@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First2', 'Last2', '', 2, 'female.png'),
-(3, 'email3@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First3', 'Last3', '', 2, 'female.png'),
-(4, 'email4@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First4', 'Last4', '', 1, 'male.png'),
-(5, 'email5@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First5', 'Last5', '', 1, 'male.png'),
-(6, 'email6@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First6', 'Last6', '', 1, 'CarASpMADNe9u19Kylnkoreo7zASjq.gif'),
-(7, 'email7@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First7', 'Last7', '', 1, 'male.png'),
-(8, 'email8@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First8', 'Last8', '', 1, 'male.png'),
-(9, 'email9@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First9', 'Last9', '', 2, 'female.png'),
-(10, 'email10@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First10', 'Last10', '', 1, 'male.png'),
-(11, 'email11@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First11', 'Last11', '', 1, 'male.png'),
-(12, 'email12@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First12', 'Last12', '', 1, 'male.png'),
-(13, 'email13@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First13', 'Last13', '', 2, 'female.png'),
-(14, 'email14@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First14', 'Last14', '', 2, 'female.png'),
-(15, 'email15@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First15', 'Last15', '', 2, 'female.png'),
-(16, 'email16@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First16', 'Last16', '', 1, 'male.png'),
-(17, 'email17@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First17', 'Last17', '', 1, 'male.png'),
-(18, 'email18@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First18', 'Last18', '', 2, 'female.png'),
-(19, 'email19@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First19', 'Last19', '', 2, 'female.png'),
-(20, 'email20@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First20', 'Last20', '', 2, 'female.png');
+INSERT INTO `user` (`id`, `email`, `password`, `first_name`, `last_name`, `phone`, `gender`, `avatar`, `token`) VALUES
+(1, 'email1@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First1', 'Last1', '', 2, 'female.png', ''),
+(2, 'email2@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First2', 'Last2', '', 2, 'female.png', ''),
+(3, 'email3@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First3', 'Last3', '', 2, 'female.png', ''),
+(4, 'burlacu_ionut_mihai@yahoo.com', 'e10adc3949ba59abbe56e057f20f883e', 'First4', 'Last4', '', 1, 'male.png', ''),
+(5, 'email5@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First5', 'Last5', '', 1, 'male.png', ''),
+(6, 'email6@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First6', 'Last6', '', 1, 'CarASpMADNe9u19Kylnkoreo7zASjq.gif', ''),
+(7, 'email7@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First7', 'Last7', '', 1, 'male.png', ''),
+(8, 'email8@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First8', 'Last8', '', 1, 'male.png', ''),
+(9, 'email9@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First9', 'Last9', '', 2, 'female.png', ''),
+(10, 'email10@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First10', 'Last10', '', 1, 'male.png', ''),
+(11, 'email11@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First11', 'Last11', '', 1, 'male.png', ''),
+(12, 'email12@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First12', 'Last12', '', 1, 'male.png', ''),
+(13, 'email13@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First13', 'Last13', '', 2, 'female.png', ''),
+(14, 'email14@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First14', 'Last14', '', 2, 'female.png', ''),
+(15, 'email15@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First15', 'Last15', '', 2, 'female.png', ''),
+(16, 'email16@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First16', 'Last16', '', 1, 'male.png', ''),
+(17, 'email17@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First17', 'Last17', '', 1, 'male.png', ''),
+(18, 'email18@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First18', 'Last18', '', 2, 'female.png', ''),
+(19, 'email19@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First19', 'Last19', '', 2, 'female.png', ''),
+(20, 'email20@email.com', 'e10adc3949ba59abbe56e057f20f883e', 'First20', 'Last20', '', 2, 'female.png', '');
 
 -- --------------------------------------------------------
 
@@ -7341,9 +7326,7 @@ INSERT INTO `user` (`id`, `email`, `password`, `first_name`, `last_name`, `phone
 
 CREATE TABLE IF NOT EXISTS `user_badge` (
   `user_id` int(10) unsigned NOT NULL,
-  `badge_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`user_id`,`badge_id`),
-  KEY `user_badge_badge_id_foreign` (`badge_id`)
+  `badge_id` int(10) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -7351,6 +7334,7 @@ CREATE TABLE IF NOT EXISTS `user_badge` (
 --
 
 INSERT INTO `user_badge` (`user_id`, `badge_id`) VALUES
+(1, 3),
 (6, 3),
 (6, 4),
 (1, 9),
@@ -7366,9 +7350,7 @@ INSERT INTO `user_badge` (`user_id`, `badge_id`) VALUES
 
 CREATE TABLE IF NOT EXISTS `user_interest` (
   `user_id` int(10) unsigned NOT NULL,
-  `interest_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`user_id`,`interest_id`),
-  KEY `user_interest_interest_id_foreign` (`interest_id`)
+  `interest_id` int(10) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -7380,9 +7362,7 @@ CREATE TABLE IF NOT EXISTS `user_interest` (
 CREATE TABLE IF NOT EXISTS `vote_answer` (
   `user_id` int(10) unsigned NOT NULL,
   `answer_id` int(10) unsigned NOT NULL,
-  `type` int(11) NOT NULL,
-  PRIMARY KEY (`user_id`,`answer_id`),
-  KEY `vote_answer_answer_id_foreign` (`answer_id`)
+  `type` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -7402,9 +7382,7 @@ INSERT INTO `vote_answer` (`user_id`, `answer_id`, `type`) VALUES
 CREATE TABLE IF NOT EXISTS `vote_question` (
   `user_id` int(10) unsigned NOT NULL,
   `question_id` int(10) unsigned NOT NULL,
-  `type` int(11) NOT NULL,
-  PRIMARY KEY (`user_id`,`question_id`),
-  KEY `vote_question_question_id_foreign` (`question_id`)
+  `type` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -7412,10 +7390,132 @@ CREATE TABLE IF NOT EXISTS `vote_question` (
 --
 
 INSERT INTO `vote_question` (`user_id`, `question_id`, `type`) VALUES
+(1, 499, 2),
 (6, 43, 1),
 (6, 344, 2),
 (6, 499, 1);
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `answer`
+--
+ALTER TABLE `answer`
+  ADD PRIMARY KEY (`id`), ADD KEY `answer_question_id_foreign` (`question_id`), ADD KEY `answer_user_id_foreign` (`user_id`);
+
+--
+-- Indexes for table `badge`
+--
+ALTER TABLE `badge`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `interest`
+--
+ALTER TABLE `interest`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `question`
+--
+ALTER TABLE `question`
+  ADD PRIMARY KEY (`id`), ADD KEY `question_user_id_foreign` (`user_id`), ADD KEY `question_category_id_foreign` (`category_id`);
+
+--
+-- Indexes for table `report_answer`
+--
+ALTER TABLE `report_answer`
+  ADD PRIMARY KEY (`user_id`,`answer_id`), ADD KEY `report_answer_answer_id_foreign` (`answer_id`);
+
+--
+-- Indexes for table `report_question`
+--
+ALTER TABLE `report_question`
+  ADD PRIMARY KEY (`user_id`,`question_id`), ADD KEY `report_question_question_id_foreign` (`question_id`);
+
+--
+-- Indexes for table `tag`
+--
+ALTER TABLE `tag`
+  ADD PRIMARY KEY (`id`), ADD KEY `tag_question_id_foreign` (`question_id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_badge`
+--
+ALTER TABLE `user_badge`
+  ADD PRIMARY KEY (`user_id`,`badge_id`), ADD KEY `user_badge_badge_id_foreign` (`badge_id`);
+
+--
+-- Indexes for table `user_interest`
+--
+ALTER TABLE `user_interest`
+  ADD PRIMARY KEY (`user_id`,`interest_id`), ADD KEY `user_interest_interest_id_foreign` (`interest_id`);
+
+--
+-- Indexes for table `vote_answer`
+--
+ALTER TABLE `vote_answer`
+  ADD PRIMARY KEY (`user_id`,`answer_id`), ADD KEY `vote_answer_answer_id_foreign` (`answer_id`);
+
+--
+-- Indexes for table `vote_question`
+--
+ALTER TABLE `vote_question`
+  ADD PRIMARY KEY (`user_id`,`question_id`), ADD KEY `vote_question_question_id_foreign` (`question_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `answer`
+--
+ALTER TABLE `answer`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5000;
+--
+-- AUTO_INCREMENT for table `badge`
+--
+ALTER TABLE `badge`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `category`
+--
+ALTER TABLE `category`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT for table `interest`
+--
+ALTER TABLE `interest`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+--
+-- AUTO_INCREMENT for table `question`
+--
+ALTER TABLE `question`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=501;
+--
+-- AUTO_INCREMENT for table `tag`
+--
+ALTER TABLE `tag`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1516;
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
 --
 -- Constraints for dumped tables
 --
@@ -7424,63 +7524,63 @@ INSERT INTO `vote_question` (`user_id`, `question_id`, `type`) VALUES
 -- Constraints for table `answer`
 --
 ALTER TABLE `answer`
-  ADD CONSTRAINT `answer_question_id_foreign` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `answer_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
+ADD CONSTRAINT `answer_question_id_foreign` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `answer_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `question`
 --
 ALTER TABLE `question`
-  ADD CONSTRAINT `question_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `question_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
+ADD CONSTRAINT `question_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `question_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `report_answer`
 --
 ALTER TABLE `report_answer`
-  ADD CONSTRAINT `report_answer_answer_id_foreign` FOREIGN KEY (`answer_id`) REFERENCES `answer` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `report_answer_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
+ADD CONSTRAINT `report_answer_answer_id_foreign` FOREIGN KEY (`answer_id`) REFERENCES `answer` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `report_answer_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `report_question`
 --
 ALTER TABLE `report_question`
-  ADD CONSTRAINT `report_question_question_id_foreign` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `report_question_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
+ADD CONSTRAINT `report_question_question_id_foreign` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `report_question_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `tag`
 --
 ALTER TABLE `tag`
-  ADD CONSTRAINT `tag_question_id_foreign` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE CASCADE;
+ADD CONSTRAINT `tag_question_id_foreign` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `user_badge`
 --
 ALTER TABLE `user_badge`
-  ADD CONSTRAINT `user_badge_badge_id_foreign` FOREIGN KEY (`badge_id`) REFERENCES `badge` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `user_badge_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
+ADD CONSTRAINT `user_badge_badge_id_foreign` FOREIGN KEY (`badge_id`) REFERENCES `badge` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `user_badge_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `user_interest`
 --
 ALTER TABLE `user_interest`
-  ADD CONSTRAINT `user_interest_interest_id_foreign` FOREIGN KEY (`interest_id`) REFERENCES `interest` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `user_interest_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
+ADD CONSTRAINT `user_interest_interest_id_foreign` FOREIGN KEY (`interest_id`) REFERENCES `interest` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `user_interest_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vote_answer`
 --
 ALTER TABLE `vote_answer`
-  ADD CONSTRAINT `vote_answer_answer_id_foreign` FOREIGN KEY (`answer_id`) REFERENCES `answer` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `vote_answer_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
+ADD CONSTRAINT `vote_answer_answer_id_foreign` FOREIGN KEY (`answer_id`) REFERENCES `answer` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `vote_answer_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vote_question`
 --
 ALTER TABLE `vote_question`
-  ADD CONSTRAINT `vote_question_question_id_foreign` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `vote_question_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
+ADD CONSTRAINT `vote_question_question_id_foreign` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `vote_question_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
